@@ -1,0 +1,62 @@
+---
+- name: Grafana, Prometheus and Apache node exporter configuration
+  hosts: all
+  become: true
+  vars_files: vars.yml
+  tasks:
+    - name: Copy prometheus.yml (Confif file)to server
+      ansible.builtin.copy:
+        src: ../monitoring_conf/prometheus_conf/prometheus.yml
+        dest: "{{ prometheus_conf }}/prometheus.yml"
+        mode: '0644'
+      notify: Restart prometheus
+
+    - name: Copy grafana datasources to server
+      ansible.builtin.copy:
+        src: ../monitoring_conf/grafana_conf/datasources/
+        dest: "{{ grafana_datasources }}"
+        mode: '0644'
+      notify: Restart grafana-server
+
+    - name: Copy grafana.ini
+      ansible.builtin.copy:
+        src: ../monitoring_conf/grafana_conf/grafana.ini
+        dest: "/etc/grafana/"
+        mode: '0644'
+      notify: Restart grafana-server
+
+    - name: Copy all systemd arguments for prometheus & its services(for listening locally)
+      ansible.builtin.copy:
+        src: ../monitoring_conf/prometheus_conf/systemd_args/
+        dest: /etc/default
+        mode: '0644'
+
+    - name: Reload systemd to apply new configurations
+      ansible.builtin.systemd:
+        daemon_reload: yes
+      notify:
+        - Restart prometheus
+        - Restart prometheus-node-exporter
+        - Restart prometheus-apache-exporter
+
+  handlers:
+    - name: Restart prometheus
+      ansible.builtin.service:
+        name: prometheus
+        state: restarted
+
+    - name: Restart prometheus-node-exporter
+      ansible.builtin.service:
+        name: prometheus-node-exporter
+        state: restarted
+
+    - name: Restart prometheus-apache-exporter
+      ansible.builtin.service:
+        name: prometheus-apache-exporter
+        state: restarted
+
+    - name: Restart grafana-server
+      ansible.builtin.service:
+        name: grafana-server
+        state: restarted
+        enabled: yes
