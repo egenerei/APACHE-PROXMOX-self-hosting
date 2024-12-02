@@ -11,10 +11,24 @@
         mode: '0644'
       notify: Restart prometheus
 
+    - name: tls_config_exporter.yml (Config file)to server
+      ansible.builtin.copy:
+        src: ../monitoring_conf/prometheus_conf/tls_config_exporter.yml
+        dest: "{{ prometheus_conf }}/tls_config_exporter.yml"
+        mode: '0644'
+      notify: Restart prometheus-apache-exporter
+
     - name: Copy grafana datasources to server
       ansible.builtin.copy:
         src: ../monitoring_conf/grafana_conf/datasources/
         dest: "{{ grafana_datasources }}"
+        mode: '0644'
+      notify: Restart grafana-server
+
+    - name: Copy grafana dashboards to server
+      ansible.builtin.copy:
+        src: ../monitoring_conf/grafana_conf/dashboards/
+        dest: "{{ grafana_dashboards }}"
         mode: '0644'
       notify: Restart grafana-server
 
@@ -30,6 +44,11 @@
         src: ../monitoring_conf/prometheus_conf/systemd_args/
         dest: /etc/default
         mode: '0644'
+      notify:
+        - Restart prometheus
+        - Restart prometheus-node-exporter
+        - Restart prometheus-apache-exporter
+
 
     - name: Reload systemd to apply new configurations
       ansible.builtin.systemd:

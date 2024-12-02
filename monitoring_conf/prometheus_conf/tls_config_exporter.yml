@@ -1,0 +1,7 @@
+# TLS and basic authentication configuration example.
+#
+# Additionally, a certificate and a key file are needed.
+tls_server_config:
+  cert_file: /https_certificates/egenerei.es_ssl_certificate.cer
+  key_file: /https_certificates/_.egenerei.es_private_key.key
+
