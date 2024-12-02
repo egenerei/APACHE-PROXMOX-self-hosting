@@ -25,12 +25,12 @@
         mode: '0644'
       notify: Restart grafana-server
 
-    - name: Copy grafana dashboards to server
-      ansible.builtin.copy:
-        src: ../monitoring_conf/grafana_conf/dashboards/
-        dest: "{{ grafana_dashboards }}"
-        mode: '0644'
-      notify: Restart grafana-server
+    # - name: Copy grafana dashboards to server
+    #   ansible.builtin.copy:
+    #     src: ../monitoring_conf/grafana_conf/dashboards/
+    #     dest: "{{ grafana_dashboards }}"
+    #     mode: '0644'
+    #   notify: Restart grafana-server
 
     - name: Copy grafana.ini
       ansible.builtin.copy:
