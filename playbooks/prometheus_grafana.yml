@@ -4,7 +4,7 @@
   become: true
   vars_files: vars.yml
   tasks:
-    - name: Copy prometheus.yml (Confif file)to server
+    - name: Copy prometheus.yml (Config file)to server
       ansible.builtin.copy:
         src: ../monitoring_conf/prometheus_conf/prometheus.yml
         dest: "{{ prometheus_conf }}/prometheus.yml"
@@ -25,12 +25,25 @@
         mode: '0644'
       notify: Restart grafana-server
 
-    # - name: Copy grafana dashboards to server
-    #   ansible.builtin.copy:
-    #     src: ../monitoring_conf/grafana_conf/dashboards/
-    #     dest: "{{ grafana_dashboards }}"
-    #     mode: '0644'
-    #   notify: Restart grafana-server
+    - name: Create the destination folder
+      ansible.builtin.file:
+        path: /var/lib/grafana/dashboards
+        state: directory
+        mode: '0755'
+
+    - name: Copy grafana dashboard json files to server
+      ansible.builtin.copy:
+        src: ../monitoring_conf/grafana_conf/dashboards_conf/dashboards/
+        dest: "{{ grafana_dashboards_json }}"
+        mode: '0644'
+      notify: Restart grafana-server
+
+    - name: Copy grafana dashboards config file to server
+      ansible.builtin.copy:
+        src: ../monitoring_conf/grafana_conf/dashboards_conf/config/
+        dest: "{{ grafana_dashboards_config }}"
+        mode: '0644'
+      notify: Restart grafana-server
 
     - name: Copy grafana.ini
       ansible.builtin.copy:

@@ -10,4 +10,5 @@ domain: egenerei.es
 certs_directory: /https_certificates
 prometheus_conf: /etc/prometheus
 grafana_datasources: /etc/grafana/provisioning/datasources
-grafana_dashboards: /etc/grafana/provisioning/dashboards
+grafana_dashboards_config: /etc/grafana/provisioning/dashboards
+grafana_dashboards_json: /var/lib/grafana/dashboards
