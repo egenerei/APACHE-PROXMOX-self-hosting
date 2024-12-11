@@ -78,6 +78,13 @@
         mode: '0755'
       notify: Restart apache2
 
+    - name: Stablish permissions for urls.txt
+      file:
+        path: "/var/www/html/php_url_shortener/urls.txt"
+        owner: www-data
+        group: www-data
+        mode: '0766'
+
     - name: Enable headers module in Apache2
       command: a2enmod headers
       notify: Restart apache2
@@ -110,6 +117,23 @@
 
     - name: Enable rewrite module in Apache2
       command: a2enmod rewrite
+      notify: Restart apache2
+      changed_when: false
+
+    - name: Disable mpm_event module in Apache2
+      command: a2dismod mpm_event
+      notify: Restart apache2
+      changed_when: true
+
+    
+
+    - name: Enable mpm_prefork module in Apache2
+      command: a2enmod mpm_prefork
+      notify: Restart apache2
+      changed_when: false
+
+    - name: Enable php module in Apache2
+      command: a2enmod php8.3
       notify: Restart apache2
       changed_when: false
 
