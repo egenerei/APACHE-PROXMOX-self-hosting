@@ -4,7 +4,7 @@ sysadmin_passwd: /etc/apache2/sysadmin/.htpasswd
 apache2_conf: /etc/apache2/apache2.conf
 website_enabled_conf: /etc/apache2/sites-enabled
 website_available_conf: /etc/apache2/sites-available
-user: vagrant
+user: jdrp
 scripts: /home/{{user}}/scripts
 domain: egenerei.es
 certs_directory: /https_certificates
