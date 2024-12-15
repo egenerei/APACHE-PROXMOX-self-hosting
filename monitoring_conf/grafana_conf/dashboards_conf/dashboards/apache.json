@@ -663,7 +663,6 @@
   "style": "dark",
   "tags": [],
   "templating": {
-    "enable": false,
     "list": [
       {
         "allValue": null,
