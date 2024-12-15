@@ -53,19 +53,20 @@ The Apache web server is deployed on a Proxmox virtual machine (VM) with dynamic
 - Install a Linux distribution (Ubuntu).
 - Configure the VM to allow SSH access using keys (disable password authentication).
 
-### Step 2: Execute Ansible Playbooks
+### Step 2: Configure the files playbooks/vars.yml, hosts, website_conf/root.conf, monitoring_conf/grafana_conf/grafana.ini and ansible.cfg with your own configuration.
+
+### Step 3: Execute Ansible Playbook main.yml
 - Use Ansible to automate:
   - Apache installation.
   - Creation of virtual hosts.
-  - Firewall rules (e.g., UFW for port 443).
   - User permissions and server hardening.
   - Full provisioning of Grafana dashboards and data sources.
 
-### Step 3: Configure Dynamic DNS with IONOS
+### Step 4: Configure Dynamic DNS with IONOS
 - Update DNS records in the IONOS portal.
 - Use a dynamic DNS updater to ensure the IP address is synced with the domain.
 
-### Step 4: Validate Apache Server
+### Step 5: Validate Apache Server
 - Access the server via the domain or public IP.
 - Ensure `/var/www/html` serves the expected content.
 
